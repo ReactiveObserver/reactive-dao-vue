@@ -1,5 +1,5 @@
 
-let prefix = "$reactive-dao-path-"
+let prefix = "$reactiveDaoPath_"
 
 const ReactiveDaoVue = {
   install(Vue, options) {
