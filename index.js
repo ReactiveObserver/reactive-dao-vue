@@ -35,18 +35,26 @@ const ReactiveDaoVue = {
         for(let key in this.$options.reactive) {
           let path = this.$options.reactive[key]
           if(typeof path == 'function'){
-            reactiveObservables[key] = dao.observable(this[prefix + key])
-            this.$watch(prefix + key, newPath => {
-              reactiveObservables[key].unbindProperty(this, key)
-              reactiveObservables[key] = dao.observable(newPath)
+            let p = this[prefix + key]
+            if(p) {
+              reactiveObservables[key] = dao.observable(p)
               reactiveObservables[key].bindProperty(this, key)
+            }
+            this.$watch(prefix + key, newPath => {
+              if(reactiveObservables[key]) reactiveObservables[key].unbindProperty(this, key)
+              delete reactiveObservables[key]
+              if(newPath) {
+                reactiveObservables[key] = dao.observable(newPath)
+                reactiveObservables[key].bindProperty(this, key)
+              }
             })
           } else if(path instanceof Array) {
             reactiveObservables[key] = dao.observable(path)
+            reactiveObservables[key].bindProperty(this, key)
           } else if(typeof path == 'string') {
             reactiveObservables[key] = dao.observable(path)
+            reactiveObservables[key].bindProperty(this, key)
           } else throw new Error("unknown reactive path "+path)
-          reactiveObservables[key].bindProperty(this, key)
         }
       },
       beforeDestroy() {
