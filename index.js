@@ -12,9 +12,9 @@ const ReactiveDaoVue = {
         for(let key in this.$options.reactive) {
           let path = this.$options.reactive[key]
           if(typeof path == 'function'){
-            this.$options.computed[prefix + key] = path
-          } else if(path instanceof Array) {
+            this.$options.computed[prefix + key] = path          
           } else if(typeof path == 'string') {
+          } else if(path.length !== undefined) {
           } else throw new Error("unknown reactive path "+path)
         }
         this.$options.data = function vueReavtiveDaoInjectedDataFn () {
