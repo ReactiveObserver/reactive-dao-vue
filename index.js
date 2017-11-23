@@ -48,10 +48,10 @@ const ReactiveDaoVue = {
                 reactiveObservables[key].bindProperty(this, key)
               }
             })
-          } else if(path instanceof Array) {
+          } else if(typeof path == 'string') {
             reactiveObservables[key] = dao.observable(path)
             reactiveObservables[key].bindProperty(this, key)
-          } else if(typeof path == 'string') {
+          } else if(path.length !== undefined) {
             reactiveObservables[key] = dao.observable(path)
             reactiveObservables[key].bindProperty(this, key)
           } else throw new Error("unknown reactive path "+path)
