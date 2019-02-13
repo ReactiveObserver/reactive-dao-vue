@@ -25,6 +25,7 @@ const ReactiveDaoVue = {
             ) || {}
           for (let key in this.$options.reactive) {
             data[key] = null
+            data[key+"Error"] = null
           }
           return data
         }
@@ -39,6 +40,7 @@ const ReactiveDaoVue = {
             if(p) {
               reactiveObservables[key] = dao.observable(p)
               reactiveObservables[key].bindProperty(this, key)
+              reactiveObservables[key].bindErrorProperty(this, key+"Error")
             }
             this.$watch(prefix + key, newPath => {
               if(reactiveObservables[key]) reactiveObservables[key].unbindProperty(this, key)
@@ -46,14 +48,17 @@ const ReactiveDaoVue = {
               if(newPath) {
                 reactiveObservables[key] = dao.observable(newPath)
                 reactiveObservables[key].bindProperty(this, key)
+                reactiveObservables[key].bindErrorProperty(this, key+"Error")
               }
             })
           } else if(typeof path == 'string') {
             reactiveObservables[key] = dao.observable(path)
             reactiveObservables[key].bindProperty(this, key)
+            reactiveObservables[key].bindErrorProperty(this, key+"Error")
           } else if(path.length !== undefined) {
             reactiveObservables[key] = dao.observable(path)
             reactiveObservables[key].bindProperty(this, key)
+            reactiveObservables[key].bindErrorProperty(this, key+"Error")
           } else throw new Error("unknown reactive path "+path)
         }
       },
@@ -61,6 +66,7 @@ const ReactiveDaoVue = {
         let reactiveObservables = this.reactiveObservables
         for(let key in reactiveObservables) {
           reactiveObservables[key].unbindProperty(this, key)
+          reactiveObservables[key].unbindErrorProperty(this, key+"Error")
         }
       }
     })
