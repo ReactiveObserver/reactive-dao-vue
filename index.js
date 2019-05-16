@@ -17,7 +17,7 @@ const ReactiveDaoVue = {
           } else if(path.length !== undefined) {
           } else throw new Error("unknown reactive path "+path)
         }
-        this.$options.data = function vueReavtiveDaoInjectedDataFn () {
+        this.$options.data = function vueReactiveDaoInjectedDataFn () {
           const data = (
               (typeof optionData === 'function')
                 ? optionData.call(this)
