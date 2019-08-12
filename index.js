@@ -7,6 +7,7 @@ const ReactiveDaoVue = {
     let dao = options.dao
     Vue.mixin({
       beforeCreate() {
+        if(!this.$options.reactive) return; // Avoid distributed fat
         const optionData = this.$options.data
         if (!this.$options.computed) this.$options.computed = {}
         for(let key in this.$options.reactive) {
@@ -31,6 +32,7 @@ const ReactiveDaoVue = {
         }
       },
       created() {
+        if(!this.$options.reactive) return; // Avoid distributed fat
         this.reactiveObservables = {}
         let reactiveObservables = this.reactiveObservables
         for(let key in this.$options.reactive) {
@@ -63,6 +65,7 @@ const ReactiveDaoVue = {
         }
       },
       beforeDestroy() {
+        if(!this.$options.reactive) return; // Avoid distributed fat
         let reactiveObservables = this.reactiveObservables
         for(let key in reactiveObservables) {
           reactiveObservables[key].unbindProperty(this, key)
