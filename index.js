@@ -27,8 +27,8 @@ const ReactiveDaoVue = {
                 : optionData
             ) || {}
           for (let key in this.$options.reactive) {
-            data[key] = null
-            data[key+"Error"] = null
+            data[key] = undefined
+            data[key+"Error"] = undefined
           }
           return data
         }
