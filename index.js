@@ -84,7 +84,9 @@ const ReactiveDaoVue = {
         if(typeof window == 'undefined') return; // NO REACTIVE PREFETCH ON SERVER
         if(!this.$options.reactivePreFetch) return;
         if (!this.$options.computed) this.$options.computed = {}
-        this.$options.computed[prefix+"_reactivePreFetch"] = this.$options.reactivePreFetch
+        this.$options.computed[prefix+"_reactivePreFetch"] = function() {
+          return this.$options.reactivePreFetch(this.$route)
+        }
         const optionData = this.$options.data
         this.$options.data = function vueReactiveDaoInjectedDataFn () {
           const data = (
